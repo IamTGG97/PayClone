@@ -1,17 +1,30 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-require('dotenv').config();
+const walletRoutes = require('./routes/wallet');
+console.log("walletRoutes contents:", walletRoutes);
+
 
 const app = express()
 app.use(cors());
 app.use(express.json());
+
 app.use('/api/auth', authRoutes);
+app.use('/api/wallet', walletRoutes);
+console.log("Wallet routes middleware loaded");
+
+console.log("Routes registered");
 
 app.get('/', (req, res) => {
     res.send('API is running');
 });
+
+/*app.get('/api/wallet/test-direct', (req, res) => {
+  res.send('Direct inline wallet test route working');
+});
+*/
 
 // Connect to MongoDB
 mongoose
