@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
 import { loginUser } from '../services/api';
+import '../App.css';
+import { useNavigate} from 'react-router-dom';
+
 
 function LoginPage() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({ email: '', password: ''});
     const [error, setError] = useState('');
 
@@ -15,12 +19,13 @@ function LoginPage() {
             const res = await loginUser(formData);//calls backend
             localStorage.setItem('token', res.data.token);
             alert('Login was successful');
+            navigate('/wallet');
         } catch (err) {
             setError(err.response.data.message || 'Login failed');
         }
     }
     return (
-    <div>
+    <div className="container">
       <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input type="email" name="email" placeholder="Email" onChange={handleChange} required />

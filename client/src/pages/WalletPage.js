@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getWalletBalance, fundWallet } from '../services/api';
+import '../App.css';
+import  PrivateRoute from '../components/PrivateRoute';
 
 function WalletPage() {
     const [balance, setBalance] = useState(0);
@@ -31,7 +33,7 @@ function WalletPage() {
     };
 
     return (
-    <div>
+    <div className="container">
       <h2>Wallet</h2>
       <p>Current Balance: ${balance}</p>
       <form onSubmit={handleFund}>
@@ -47,6 +49,7 @@ function WalletPage() {
       {message && <p>{message}</p>}
     </div>
   );
+  
 
 }
 
