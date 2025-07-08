@@ -5,12 +5,10 @@ import RegisterPage from './pages/RegisterPage';
 import WalletPage from './pages/WalletPage';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
+import TransferPage from './pages/TransferPage';
+import TransactionHistoryPage from './pages/TransactionHistoryPage';
 
 
-function privateRoute({ children }) {
-  const token = localStorage.getItem('token');
-  return token ? children : <Navigate to="/login" />;
-}
 function App(){
   return (
     <Router>
@@ -18,9 +16,10 @@ function App(){
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/wallet" element={<WalletPage />} />
-        <Route path="/*" element={<Navigate to="/login" />} />
         <Route path="/wallet" element={<PrivateRoute><WalletPage /></PrivateRoute>} />
+        <Route path="/transfer" element={<PrivateRoute><TransferPage /></PrivateRoute>} />
+        <Route path="/history" element={<PrivateRoute><TransactionHistoryPage /></PrivateRoute>} />
+        <Route path="/*" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
   );

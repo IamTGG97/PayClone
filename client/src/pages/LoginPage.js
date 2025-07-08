@@ -18,6 +18,7 @@ function LoginPage() {
         try {
             const res = await loginUser(formData);//calls backend
             localStorage.setItem('token', res.data.token);
+            localStorage.setItem('name', res.data.user.name);
             alert('Login was successful');
             navigate('/wallet');
         } catch (err) {

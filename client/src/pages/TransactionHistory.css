@@ -1,0 +1,49 @@
+.transaction-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #1c1c1c;   /* Dark background */
+  color: #ffffff;              /* White text */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.transaction-container h2 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.transaction-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.transaction-item {
+  background-color: #2e2e2e;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.transaction-item:hover {
+  transform: translateY(-2px);
+  background-color: #3d3d3d;
+}
+
+.transaction-item span {
+  display: block;
+  font-size: 14px;
+  margin-top: 5px;
+  color: #ccc;
+}
+
+.transaction-amount {
+  font-weight: bold;
+  font-size: 16px;
+  color: #fff;
+}
+no I want transfer to have the same styles as wallet, login, register, I looked at my files and it turns out that I never put anything into the files that were designated for each page, but the files are all importing from App.css which cause them to all have the same style

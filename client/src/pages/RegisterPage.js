@@ -17,6 +17,7 @@ function RegisterPage() {
         try {
             const res = await registerUser(formData);
             localStorage.setItem('token', res.data.token);
+            localStorage.setItem('name', res.data.user.name)
             alert('Registration was successful');
             navigate('/wallet');
         } catch (err) {

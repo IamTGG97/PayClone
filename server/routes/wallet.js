@@ -15,6 +15,49 @@ router.get('/ping', (req, res) => {
   res.send('pong');
 });
 
+router.post('/transfer', authMiddleware, async (req, res) => {
+  const { recipientEmail, amount } = req.body;
+  const senderId = req.user.id;
+
+  try {
+    if (!recipientEmail || !amount) {
+      return res.status(400).json({ message: 'Recipient and amount are required' });
+    }
+
+    const senderWallet = await WalletPage.findOne({ user: senderId });
+    const recipientUser = await User.findOne({ email: recipientEmail });
+
+    if (!recipientUser){
+      return res.status(400).json({ message: 'Recipient not found' });
+    }
+
+    const recipientWallet = await WalletPage.findOne({ user: recipientUser._id });
+
+    if (!recipientWallet) {
+      return res.status(404).json({ message: 'Recipient wallet not found' });
+    }
+    
+    if(senderWallet.balance < amount){
+      return res.status(400).json({ messagge: 'Insufficient funds' });
+    }
+
+    senderWallet.balance -= amount;
+    recipientWallet.balance += amount;
+
+    await senderWallet.save();
+    await recipientWallet.save();
+
+    res.json({
+      message: 'Transfer successful',
+      senderbalance: senderWallet.balance,
+      recipientBalance: recipientWallet.balance
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Transfer failed', error: err.message });
+  }
+});
+
 // Get wallet balance (protected)
 router.get('/balance', authMiddleware, async (req, res) => {
   try {
@@ -26,6 +69,15 @@ router.get('/balance', authMiddleware, async (req, res) => {
   } catch (err) {
     console.error('Error getting wallet balance:', err);
     res.status(500).json({ message: 'Server error' });
+  }
+});
+
+router.get('/history', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.json({ transactions: user.transactions || [] });
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching transaction history' });
   }
 });
 
